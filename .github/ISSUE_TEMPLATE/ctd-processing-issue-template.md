@@ -19,7 +19,7 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 
 - [ ] Secured a copy of the cruise report from ARC or chief scientist (if available)
 - [ ] Copied raw CTD data from SRC
-- [ ] Copied available salinity and/or dissolved oxygen water sample data from SRC
+- [ ] Copied available Autosal salinity data and/or Winkler dissolved oxygen data from SRC
 - [ ] Obtained copy of electronic event log and/or CTD log sheets
 - [ ] Obtained copies of Dry and/or Wet log sheets (if available)
 - [ ] Latest version of CTDDAP software installed; along with supported version of Sea-Bird data processing software
@@ -29,8 +29,17 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 ## Processing Steps
 
 - ### Step 0 - Calibrate data
+  - [ ] Obtained R script templates used for calibration
+  - [ ] Computed new linear correction for CTD conductivity sensor(s)
+  - [ ] Computed new Soc correction for CTD dissolved oxygen sensor(s)
+  - [ ] Applied pH linear correction (if provided by tracer group)
 - ### Step 1 - Inspect ODF files
 - ### Step 2 - Update metadata
-- ### Step 3 - Add quality flag fields and run data through automated checks
-- ### Step 4 - Visually inspect data
-- ### Step 5 - Final updates to ODF files
+- ### Step 3 - Consult with (obtain feedback from) physical scientist on CTD data quality
+- ### Step 4 - Add quality flag fields and run data through automated checks
+- ### Step 5 - Visually inspect data while referring to physical scientist feedback and report produced from automated checking
+- ### Step 6 - Perform any required final updates to ODF files
+- ### Step 7 - Archive data and email notification
+  - [ ] Copied files to SRC
+  - [ ] Loaded files into ODF_ARCHIVE database
+  - [ ] Notified data archivist and respective data manager
