@@ -23,7 +23,7 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - [ ] Obtained copy of electronic event log and/or CTD log sheets
 - [ ] Obtained copies of Dry and/or Wet log sheets (if available)
 - [ ] Latest version of CTDDAP software installed; along with supported version of Sea-Bird data processing software
-- [ ] Install latest versions of MATLAB®, R, RStudio, and Python available on Software Center
+- [ ] Latest versions of MATLAB®, R, RStudio, and Python available on Software Center installed
 
 
 ## Processing Steps
