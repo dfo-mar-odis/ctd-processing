@@ -48,7 +48,10 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - ### Step 5 - **Add Quality Flag Fields and Run Automated Checks**
   - [ ] Executed the MATLAB® script _add_qfs_to_odf_ to add quality flag fields to the ODF files and run automated quality control checks
 - ### Step 6 - **Visually Inspect Data**
-  - [ ] Ran the MATLAB® script _odf_qc_ to visual inspect CTD profiles and assign flags to suspect data points
+  - [ ] Copied RMarkdown template and updated it for current mission
+  - [ ] Knitted RMarkdown file to produce HTML file 
+  - [ ] Opened HTML file containing profile plots to do a quick visual inspection
+  - [ ] Ran the MATLAB® script _odf_qc_ to visual inspect CTD profiles one at a time and assign flags to suspect data points
   Note: Operator should refer to physical scientist feedback and report produced from automated checking to help make judgements on suspect data points
 - ### Step 7 - **Make Final Metadata Updates**
   - [ ] (if required) Executed a MATLAB® script to do some final updates (e.g. documenting that the secondary sensor data should be used instead of the primary sensor data) to the ODF file metadata
