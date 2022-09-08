@@ -50,8 +50,8 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - ### Step 6 - **Visually Inspect Data**
   - [ ] Ran the MATLAB® script _odf_qc_ to visual inspect CTD profiles and assign flags to suspect data points
   Note: Operator should refer to physical scientist feedback and report produced from automated checking to help make judgements on suspect data points
-- ### Step 7 - **Perform Final ODF File Updates**
-  - [ ] (if required) Executed a MATLAB® script to do some final ODF file updates (e.g. documenting that the secondary sensor data should be used instead of the primary sensor data)
+- ### Step 7 - **Make Final Metadata Updates**
+  - [ ] (if required) Executed a MATLAB® script to do some final updates (e.g. documenting that the secondary sensor data should be used instead of the primary sensor data) to the ODF file metadata
 - ### Step 8 - **Archive Data and Email Notification**
   - [ ] Copied files to SRC
   - [ ] Loaded files into ODF_ARCHIVE database
