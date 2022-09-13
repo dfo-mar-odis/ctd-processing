@@ -1,0 +1,52 @@
+name: CTD Issue Form
+description: Create a processing checklist for a new dataset
+title: "<mission number>"
+labels: [Dataset]
+body:
+- type: checkboxes
+  id: new-dataset
+  attributes:
+    label: Is there an existing issue for this dataset?
+    description: Please search to see if an issue already exists for this dataset.
+    options:
+      - label: I searched the existing issues and did not find this dataset.
+  validations:
+      required: true
+- type: dropdown
+  id: calibration-step
+  attributes:
+    label: Is there bottle data available to perform the calibration step?
+    description: Please check if suitable bottle data is available to perform post-cruise sensor calibrations.
+    options:
+      - Yes
+      - No
+  validations:
+    required: true
+- type: input
+  id: processing-time-required
+  attributes:
+    label: Processing Time Required
+    description: The expected time required to process dataset once started.
+    placeholder: <2 weeks>
+  validations:
+    required: true
+- type: dropdown
+  attributes:
+    id: mission-type
+    label: Mission Type
+    description: Type of mission for which dataset was acquired.
+    options:
+      - AZMP Spring or Fall
+      - AZMP Groudfish
+      - AZMP Fixed Station
+      - AZOMP
+      - Other
+  validations:
+    required: true
+- type: textarea
+  attributes:
+    label: Dataset specific considerations?
+    description: |
+      Are there any unique issues that need to be addressed when processin this CTD dataset?
+  validations:
+    required: false
