@@ -1,5 +1,5 @@
 name: CTD Issue Form
-description: Create a processing checklist for a new dataset
+description: Answer some question before creating a new dataset issue
 title: "<mission number>"
 labels: [Dataset]
 body:
