@@ -1,13 +1,13 @@
 ---
-name: CTD processing issue template
-about: Template for outlining the procedure for processing a CTD data set.
-title: CTD Processing for Mission
+name: New Dataset to Process
+about: Template outlining the procedure for processing a new CTD data set.
+title: <Mission>
 labels: ''
 assignees: ''
 
 ---
 
-# CTD Processing Issue Template
+# Processing Steps
 
 ## Background
 
