@@ -9,8 +9,7 @@ body:
     label: Is there an existing issue for this dataset?
     description: Please search to see if an issue already exists for this dataset.
     options:
-      - label: I searched the existing issues and did not find this dataset.
-  validations:
+    - label: I searched the existing issues and did not find this dataset.
       required: true
 - type: dropdown
   id: calibration-step
