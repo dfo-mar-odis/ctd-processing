@@ -4,7 +4,6 @@ title: "<mission number>"
 labels: [Dataset]
 body:
 - type: checkboxes
-  id: new-dataset
   attributes:
     label: Is there an existing issue for this dataset?
     description: "Please search to see if an issue already exists for this dataset."
@@ -12,7 +11,6 @@ body:
     - label: I searched the existing issues and did not find this dataset.
       required: true
 - type: dropdown
-  id: calibration-step
   attributes:
     label: Is there bottle data available to perform the calibration step?
     description: "Please check if suitable bottle data is available to perform post-cruise sensor calibrations."
@@ -22,7 +20,6 @@ body:
   validations:
     required: true
 - type: input
-  id: processing-time-required
   attributes:
     label: Processing Time Required
     description: "The expected time required to process dataset once started."
@@ -31,7 +28,6 @@ body:
     required: true
 - type: dropdown
   attributes:
-    id: mission-type
     label: Mission Type
     description: "Type of mission for which dataset was acquired."
     options:
