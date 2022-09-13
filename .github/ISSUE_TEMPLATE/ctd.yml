@@ -9,13 +9,14 @@ body:
     description: "Please search to see if an issue already exists for this dataset."
     options:
     - label: I searched the existing issues and did not find this dataset.
+    required: true
 - type: dropdown
   attributes:
     label: Is there bottle data available to perform the calibration step?
     description: "Please check if suitable bottle data is available to perform post-cruise sensor calibrations."
     options:
-      - Yes
-      - No'
+      - "Yes"
+      - "No"
   validations:
     required: true
 - type: input
