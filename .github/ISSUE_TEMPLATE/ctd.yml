@@ -9,23 +9,23 @@ body:
     description: "Please search to see if an issue already exists for this dataset."
     options:
     - label: I searched the existing issues and did not find this dataset.
-      required: true
+      required: 'true'
 - type: dropdown
   attributes:
     label: Is there bottle data available to perform the calibration step?
     description: "Please check if suitable bottle data is available to perform post-cruise sensor calibrations."
     options:
       - Yes
-      - No
+      - No'
   validations:
-    required: true
+    required: 'true'
 - type: input
   attributes:
     label: Processing Time Required
     description: "The expected time required to process dataset once started."
     placeholder: <2 weeks>
   validations:
-    required: true
+    required: 'true'
 - type: dropdown
   attributes:
     label: Mission Type
@@ -37,10 +37,10 @@ body:
       - AZOMP
       - Other
   validations:
-    required: true
+    required: 'true'
 - type: textarea
   attributes:
     label: Dataset specific considerations?
     description: "Are there any unique issues that need to be addressed when processin this CTD dataset?"
   validations:
-    required: false
+    required: 'false'
