@@ -1,7 +1,7 @@
 ---
 name: New Dataset to Process
 about: Template outlining the procedure for processing a new CTD data set.
-title: <Mission>
+title: <Enter Official Mission Name e.g. NED2015017>
 labels: ''
 assignees: ''
 
