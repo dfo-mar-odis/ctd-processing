@@ -15,7 +15,7 @@ First step is to install and/or load required libraries:
 ```{r}
 library(dplyr)
 library(tidyr)
-inslibrary(ggplot2)
+library(ggplot2)
 ```
 
 ## Read & Wrangle Data
