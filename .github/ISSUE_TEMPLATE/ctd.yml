@@ -40,6 +40,6 @@ body:
 - type: textarea
   attributes:
     label: Dataset specific considerations?
-    description: "Are there any unique issues that need to be addressed when processin this CTD dataset?"
+    description: "Are there any unique issues that need to be addressed when processing this CTD dataset?"
   validations:
     required: false
