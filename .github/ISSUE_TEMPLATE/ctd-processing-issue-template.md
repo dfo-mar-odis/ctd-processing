@@ -42,12 +42,12 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
   - [ ] Inspected metadata for required updates
   - [ ] Copied and edited MATLAB® template for updating metadata
   - [ ] Applied pH linear correction (if provided by tracer group)
-- ### Step 4 - **Consult with Physical Scientist** 
+- ### Step 4 - **Add Quality Flag Fields and Run Automated Checks**
+  - [ ] Executed the MATLAB® script _add_qfs_to_odf_ to add quality flag fields to the ODF files and run automated quality control checks
+- ### Step 5 - **Consult with Physical Scientist** 
   - [ ] Physical scientist given copy of calibrated ODF files
   - [ ] Physical scientist evaluated data quality (e.g. using Temperature-Salinity plots)
   - [ ] Physical scientist provided feedback on data quality
-- ### Step 5 - **Add Quality Flag Fields and Run Automated Checks**
-  - [ ] Executed the MATLAB® script _add_qfs_to_odf_ to add quality flag fields to the ODF files and run automated quality control checks
 - ### Step 6 - **Visually Inspect Data**
   - [ ] Copied RMarkdown template and updated it for current mission
   - [ ] Knitted RMarkdown file to produce HTML file 
