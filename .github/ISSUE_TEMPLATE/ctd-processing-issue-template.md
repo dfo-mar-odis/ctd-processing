@@ -32,7 +32,6 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
   - [ ] Obtained R script templates used for calibrations
   - [ ] Computed new linear correction for CTD conductivity sensor(s)
   - [ ] Computed new Soc correction for CTD dissolved oxygen sensor(s)
-  - [ ] ??? Computed new linear correction for CTD fluorometer (to be adopted)
 - ### Step 2 - **Apply Calibrations**
   - [ ] Copied old CTD configuration files (CON or XMLCON) and updated with revised sensor calibrations
   - [ ] Reprocessed CTD data using CTDDAP and new CON files
