@@ -28,9 +28,9 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 
 ## Warnings
 
-```{r class.source="bg-danger", class.output="bg-warning"}
-cat("When processing a Ecosystem Trawl Survey (a.ka.a Groundfish mission); remember that the file name must use set number inplace of event number.")
-```
+:::warning
+**When processing a Ecosystem Trawl Survey (a.ka.a Groundfish mission); remember that the file name must use set number inplace of event number.**
+:::
 
 ## Processing Steps
 
