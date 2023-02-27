@@ -26,6 +26,12 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - [ ] Latest version of CTDDAP software installed; along with supported version of Sea-Bird data processing software
 - [ ] Latest versions of MATLAB®, R, RStudio, and Python available on Software Center installed
 
+## Warnings
+
+```{r class.source="bg-danger", class.output="bg-warning"}
+**When working on a Ecosystem Trawl Survey (a.ka.a Groundfish mission); remember that the file name must use the set number and not the event number.**
+```
+
 ## Processing Steps
 
 - ### Step 1 - **Compute Calibrations**
