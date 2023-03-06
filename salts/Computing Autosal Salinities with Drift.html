@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.189">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Jeff Jackson">
+
+<title>Computing More Accurate Autosal Salinities by Accounting for Instrument Drift</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="Computing Autosal Salinities with Drift_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Computing Autosal Salinities with Drift_files/libs/quarto-html/quarto.js"></script>
+<script src="Computing Autosal Salinities with Drift_files/libs/quarto-html/popper.min.js"></script>
+<script src="Computing Autosal Salinities with Drift_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Computing Autosal Salinities with Drift_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Computing Autosal Salinities with Drift_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Computing Autosal Salinities with Drift_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Computing Autosal Salinities with Drift_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Computing Autosal Salinities with Drift_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Computing Autosal Salinities with Drift_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+<script src="Computing Autosal Salinities with Drift_files/libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="Computing Autosal Salinities with Drift_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Computing More Accurate Autosal Salinities by Accounting for Instrument Drift</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Jeff Jackson </p>
+          </div>
+  </div>
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="autosal-salinity-background" class="level2">
+<h2 class="anchored" data-anchor-id="autosal-salinity-background">Autosal Salinity Background</h2>
+<p>On hydrographic research missions, often water samples are collected to analyze water samples for chemical components and biological production. One of the most common chemical components measured is salinity. Historically salinity was defined as practical salinity.</p>
+<blockquote class="blockquote">
+<p><em>“The current definition for Practical Salinity states: a seawater of Practical Salinity 35 has a conductivity ratio of unity at 15 degrees Centigrade (and 1 atmosphere pressure) with a potassium chloride (KCl) solution containing a mass of 32.4356 grams of KCl per kilogram of solution.”</em><br>
+<em>This excerpt was taken from an Ocean Scientific International Ltd.&nbsp;(OSIL) document entitled <a href="https://osil.com/content/uploads/2020/11/IAPSO-Standard-Seawater-and-the-Practical-Salinity-Scale.pdf">IAPSO Standard Seawater and the Practical Salinity Scale</a></em></p>
+</blockquote>
+<p>Water samples collected for the determination of Practical Salinity have primarily been analyzed at sea (optimal method; but can be done back at the office) using a <a href="https://www.guildline.ca">Guildline Instruments</a> <a href="https://www.guildline.ca/oceanography/salinometers/salinity-measurement/8400b-Autosal-lab-salinometer">8400B Autosal Laboratory Salinometer</a>. The salinometer measures the ratio of the conductivity of a water sample to an internal reference. The salinometer output corresponds to two times the conductivity ratio of the water sample to the reference. The least count of the two times conductivity ratio output is 0.00001, corresponding to a salinity precision of approximately 0.0002.</p>
+<p>The internal reference is preset to a known external reference. The external reference used is a <a href="https://iapso-ocean.org/">IAPSO</a> Standard Seawater provided by <a href="https://osil.com/salinity-measurement-standards/">OSIL</a>. Each batch of IAPSO Standard Seawater is created to have a practical salinity very close to 35 and has a batch-specific certified conductivity ratio (K15) relative to the conductivity of a standard KCl solution as described above. For example, mission HUD2004016 used Standard Seawater from Batch P141 with a certified K15 value 0.99993. <a href="#fig-iapso">Figure&nbsp;1</a> below shows a Standard Seawater from batch P165 sitting in front of a 8400B Autosal Lab salinometer.</p>
+<div class="cell" data-layout-align="left">
+<div class="cell-output-display">
+<div id="fig-iapso" class="quarto-figure quarto-figure-left anchored">
+<figure class="figure">
+<p><img src="Documentation/IAPSO_Seawater_Standard_P165.png" class="img-fluid figure-img" style="width:5in" alt="A picture of an IAPSO Standard Seawater Ampoule."></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;1: IAPSO Standard Seawater Ampoule from Batch P165</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The World Ocean Circulation Experiment (WOCE) Hydrographic Programme One-time WHP Standards for Water Samples (Joyce, 1991) states that salinity precision better than 0.001 and accuracy of 0.002 are required for WOCE. Joyce (1991) reports that these requirements can be achieved on a routine basis with the Autosal Salinometer, if it is operated with great care and experience with regular monitoring with Standard Seawater and close laboratory temperature control.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Please note that the <a href="https://cchdo.ucsd.edu/policy">WOCE manual</a> has been superseded by the <a href="https://www.go-ship.org/HydroMan.html">GO-SHIP Repeat Hydrography Manual</a>.</p>
+</div>
+</div>
+<p>Salinometer standardization is accomplished by measuring the conductivity ratio of a Standard Seawater sample and adjusting a vernier potentiometer to make the salinometer output agree with the certified conductivity ratio of the Standard Seawater. Periodic standardizations of the salinometer are carried out to monitor changes in the internal reference of the instrument. Corrections can then be applied to the measured conductivity ratios before the calculation of salinity using the PSS78 equations. Formally, a multiplicative correction ratio should be applied, but the ratio is so close to unity that a first-order additive correction is sufficient. These additive corrections are known as drift corrections. Software algorithms taking account of the drift corrections provide the final bottle salinity values.</p>
+<p>In a typical mission situation, water samples from several stations are analyzed during a single session. The salinometer operator begins by analyzing a Standard Seawater sample, then a set of water samples, and finally a second Standard Seawater sample. The beginning and ending standards and the intervening water samples constitute an analysis run. The 402 bottle salinity samples analyzed for mission HUD2004016 were divided among 10 such runs.</p>
+<p>Although the salinometer can in principle be adjusted to reproduce the exact conductivity ratio of the Standard Seawater, it is our practice to minimize such adjustments to preserve system stability. Even when adjustments are made, it is not practical to adjust the salinometer to agree exactly with the certified K15 value. In general a non-zero drift correction will need to be applied to all samples.</p>
+<p>For mission HUD2004016, the initial standard gave a two times conductivity value of 1.99990. This was 0.00004 greater than the doubled K15 value (1.99986) for the P141 Standard Seawater used. This corresponds to a salinity offset of approximately 0.0008. Following the initial standardization for mission HUD2004016, the salinometer operator adjusted the reference point of the salinometer on two occasions. Both of these adjustments gave the same two times conductivity ratio reading of 1.99983 for a difference of -0.00003 relative to the certified K15 value of the Standard water. The cumulative two times conductivity ratio drift during the mission relative to the initial value ranged from -0.00006 to 0.00010, corresponding to a range in salinity change of approximately 0.0028.</p>
+<p><br></p>
+<p>Table 1: First 10 rows of the file containing Autosal measured conductivity ratios including the HUD2010049 values.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table" style="font-size: 18px; width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;"> SampleID </th>
+   <th style="text-align:center;font-weight: bold;"> CRATx2 </th>
+   <th style="text-align:center;font-weight: bold;"> Notes </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;width: 10em; "> P151 </td>
+   <td style="text-align:center;width: 10em; "> 1.99998 </td>
+   <td style="text-align:center;width: 30em; "> K15 = 0.99997
+K15*2 = 1.99994
+Sal. = 34.999 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306701 </td>
+   <td style="text-align:center;width: 10em; "> 1.96386 </td>
+   <td style="text-align:center;width: 30em; "> HL_02 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306705 </td>
+   <td style="text-align:center;width: 10em; "> 1.81857 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306710 </td>
+   <td style="text-align:center;width: 10em; "> 1.78498 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306711 </td>
+   <td style="text-align:center;width: 10em; "> 1.95463 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306715 </td>
+   <td style="text-align:center;width: 10em; "> 1.76956 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 306720 </td>
+   <td style="text-align:center;width: 10em; "> 1.76951 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 368451 </td>
+   <td style="text-align:center;width: 10em; "> 1.83716 </td>
+   <td style="text-align:center;width: 30em; "> SHEDIAC </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 368454 </td>
+   <td style="text-align:center;width: 10em; "> 1.77478 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 368457 </td>
+   <td style="text-align:center;width: 10em; "> 1.72929 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p><br> <br></p>
+<p>Table 2: First 10 rows of HUD2010049 Autosal measured conductivity ratios.</p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table" style="font-size: 18px; width: auto !important; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;"> SampleID </th>
+   <th style="text-align:center;font-weight: bold;"> CRATx2 </th>
+   <th style="text-align:center;font-weight: bold;"> Notes </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374251 </td>
+   <td style="text-align:center;width: 10em; "> 1.96386 </td>
+   <td style="text-align:center;width: 30em; "> Start of HUD2010049 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374255 </td>
+   <td style="text-align:center;width: 10em; "> 1.78901 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374260 </td>
+   <td style="text-align:center;width: 10em; "> 1.77816 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374275 </td>
+   <td style="text-align:center;width: 10em; "> 1.99481 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374276 </td>
+   <td style="text-align:center;width: 10em; "> 1.99565 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374277 </td>
+   <td style="text-align:center;width: 10em; "> 1.99585 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374278 </td>
+   <td style="text-align:center;width: 10em; "> 1.99633 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374279 </td>
+   <td style="text-align:center;width: 10em; "> 1.99670 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374280 </td>
+   <td style="text-align:center;width: 10em; "> 1.99680 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374281 </td>
+   <td style="text-align:center;width: 10em; "> 1.99712 </td>
+   <td style="text-align:center;width: 30em; ">  </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p><br> <br></p>
+<p>Table 3: First 10 rows of HUD2010049 computed salinities of unknown origin. <!-- @ref(tab:salt-table) --></p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table" style="font-size: 18px; width: auto !important; margin-right: 0; margin-left: auto margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;"> SampleID </th>
+   <th style="text-align:center;font-weight: bold;"> CalculatedSalinity </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374251 </td>
+   <td style="text-align:center;width: 10em; "> 34.288 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374255 </td>
+   <td style="text-align:center;width: 10em; "> 30.885 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374260 </td>
+   <td style="text-align:center;width: 10em; "> 30.676 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374275 </td>
+   <td style="text-align:center;width: 10em; "> 34.896 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374276 </td>
+   <td style="text-align:center;width: 10em; "> 34.912 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374277 </td>
+   <td style="text-align:center;width: 10em; "> 34.916 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374278 </td>
+   <td style="text-align:center;width: 10em; "> 34.925 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374279 </td>
+   <td style="text-align:center;width: 10em; "> 34.933 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374280 </td>
+   <td style="text-align:center;width: 10em; "> 34.935 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374281 </td>
+   <td style="text-align:center;width: 10em; "> 34.941 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>In order to produce the best salts for a data set, it is important that instrument drift be taken into account by adjusting the salts for this drift.</p>
+<p>The salinity computation follows the formula from UNESCO (see <a href="https://repository.oceanbestpractices.org/handle/11329/109">Fofonoff and Millard, 1983</a>). The input conductivity from the Autosal must be the actual Autosal reading (i.e.&nbsp;twice the conductivity ratio). The sample conductivity is then adjusted with an offset and a drift term according to the following:</p>
+<ul>
+<li><span class="math inline">\(C_{R}\)</span> - Autosal sample conductivity ratio</li>
+<li><span class="math inline">\(C_{S}\)</span> - Autosal Standard Seawater conductivity ratio at the start of the run</li>
+<li><span class="math inline">\(C_{E}\)</span> - Autosal Standard Seawater conductivity ratio at the end of the run</li>
+<li><span class="math inline">\(V\)</span> - Standard Seawater conductivity (K15) from ampoule label</li>
+<li><span class="math inline">\(S\)</span> - current record position for sample conductivity ratio</li>
+<li><span class="math inline">\(N\)</span> - number of records in the sample conductivity run</li>
+<li><span class="math inline">\(R_{t}\)</span> - see UNESCO report</li>
+<li><span class="math inline">\(r_{t}\)</span> - see UNESCO report</li>
+<li><span class="math inline">\(R_{p}\)</span> - see UNESCO report</li>
+</ul>
+<p><span class="math display">\[
+C_{R}\ =\ C_{R}\ +\ (V\ -\ C_{S}) - \frac{(C_{E}\ - \ C_{S}) \times S}{N\ +\ 1}
+\]</span></p>
+<p>where: <span class="math display">\[
+  V\ -\ C_{S}
+  \]</span> is the offset and<br>
+<span class="math display">\[
+  \frac{(C_{E}\ -\ C_{S})\ *\ S}{N\ +\ 1}
+  \]</span> is the drift.</p>
+<p><span class="math inline">\(C_{R}\)</span> is then adjusted to produce a true conductivity ratio relative to C at standard salinity, temperature, and pressure (i.e.&nbsp;s = 35, t = 15, p = 0).</p>
+<p><span class="math inline">\(R_{t}\)</span> is computed and used in the standard formula to compute salinity.</p>
+<p><span class="math display">\[
+C_{R}\ =\ C_{R}\ *\ \frac{ C_{35,t,0}}{C_{35,15,0}}
+\]</span></p>
+<p><span class="math display">\[
+R_t\ =\ \frac{C_R}{(r_t \times R_p)}
+\]</span> <br> <br></p>
+<p>The R function <strong>compute_salts.R</strong> was written based off an old MATLAB script. It computes the practical salinity values adjusted for instrument drift from analyzed Standard Seawater ampoule and water sample conductivity ratios.</p>
+<div class="cell" data-file="compute_salts.R">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title compute_salts.R</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @author Jeff Jackson</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param ids An array of sample id numbers</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param autosal An array of water sample conductivity ratios obtained from a </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' 8400B Autosal Lab salinomter.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param batch A string containing the IAPSO Standard Seawater batch identifier</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @returns A data frame containing the ids and drift corrected salinities </span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' (a.k.a. salts).</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'   </span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @note Report any bugs to DataServicesDonnees@dfo-mpo.gc.ca</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' compute_salts(sampleIDs, CRATx2, 'P151')</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @details </span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#' @source Ocean Data and Information Services, Bedford Institute of </span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' Oceanography, DFO, Canada.</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#' Created: 03-MAR-2023</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#' Last Updated: 03-MAR-2023</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#' </span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#' You may distribute under the terms of either the GNU General Public</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#' License or the Apache v2 License, as specified in the README file.</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gsw)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(oce)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>compute_salts <span class="ot">&lt;-</span> <span class="cf">function</span>(ids, autosal, batch) {</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  output_df <span class="ot">&lt;-</span> <span class="fu">tibble</span>(ids, autosal)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(output_df)[<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="st">"drift_corrected_salts"</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  batchIds <span class="ot">&lt;-</span> <span class="fu">which</span>(ids <span class="sc">==</span> batch)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  nBatchIds <span class="ot">&lt;-</span> <span class="fu">length</span>(batchIds)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Loop through the sections of conductivity ratios to compute salts that are </span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># adjusted by the drifts.</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(nBatchIds <span class="sc">-</span> <span class="dv">1</span>)) {</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the Standard Seawater values that form the endpoints for the current </span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># section.</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    b1 <span class="ot">&lt;-</span> batchIds[i]</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    b2 <span class="ot">&lt;-</span> batchIds[i<span class="sc">+</span><span class="dv">1</span>]</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    standard1 <span class="ot">&lt;-</span> autosal[b1]</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    standard2 <span class="ot">&lt;-</span> autosal[b2]</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    total_drift <span class="ot">&lt;-</span> standard2 <span class="sc">-</span> standard1</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> b2 <span class="sc">-</span> b1</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    s <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>n</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the salts</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    salts <span class="ot">&lt;-</span> <span class="fu">gsw_SP_salinometer</span>(autosal[(b1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>b2]<span class="sc">/</span><span class="dv">2</span>, <span class="dv">24</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calculate the drift over the section</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    drift <span class="ot">&lt;-</span> (total_drift <span class="sc">/</span> n) <span class="sc">*</span> s</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute the drift corrected salts</span></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    corrected_salts <span class="ot">&lt;-</span> salts <span class="sc">+</span> drift</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>    output_df<span class="sc">$</span>drift_corrected_salts[(b1<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>b2] <span class="ot">&lt;-</span> corrected_salts</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Remove the Standard Seawater rows from the output data frame</span></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>  output_df <span class="ot">&lt;-</span> output_df[<span class="sc">-</span>batchIds,]</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (output_df)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+
+</div>
+
+<!-- Modify the table properties for the corrected salts table -->
+<style>
+table {
+  background-color: white !important;
+  color: black !important;
+}
+</style>
+<p>Table 2: First 10 rows of HUD2010049 computed salinities. <!-- @ref(tab:salt-table) --></p>
+<div class="cell">
+<div class="cell-output-display">
+
+<table class="table table" style="font-size: 18px; width: auto !important; margin-right: 0; margin-left: auto margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:center;font-weight: bold;"> ids </th>
+   <th style="text-align:center;font-weight: bold;"> drift_corrected_salts </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374251 </td>
+   <td style="text-align:center;width: 10em; "> 34.28993 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374255 </td>
+   <td style="text-align:center;width: 10em; "> 30.88720 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374260 </td>
+   <td style="text-align:center;width: 10em; "> 30.67784 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374275 </td>
+   <td style="text-align:center;width: 10em; "> 34.89790 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374276 </td>
+   <td style="text-align:center;width: 10em; "> 34.91443 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374277 </td>
+   <td style="text-align:center;width: 10em; "> 34.91836 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374278 </td>
+   <td style="text-align:center;width: 10em; "> 34.92781 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374279 </td>
+   <td style="text-align:center;width: 10em; "> 34.93509 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374280 </td>
+   <td style="text-align:center;width: 10em; "> 34.93706 </td>
+  </tr>
+  <tr>
+   <td style="text-align:center;width: 10em; "> 374281 </td>
+   <td style="text-align:center;width: 10em; "> 34.94335 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
