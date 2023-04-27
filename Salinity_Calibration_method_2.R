@@ -329,7 +329,15 @@ if( fig_out ) { dev.off() }
 #     if we filter Primary first, then filter Secondary, although they are
 #     no longer independently, but the plots wouldn't look too much different.
 #
-df_data_filtered_PSB <- df_data_filtered_PB %>% .[!sec_bot_cond_outliers,]
+
+# 
+# Combine the outlier arrays into a data frame then create a third Boolean 
+# column where its values are set to TRUE if either outlier value for that row 
+# was TRUE.
+#
+df <- tibble(prim_bot_cond_outliers, sec_bot_cond_outliers)
+df <- df %>% mutate(cond_outliers = if_any(.cols = contains('bot'), I))
+df_data_filtered_PSB <- df_data_filtered %>% .[!df$cond_outliers,]
 
 pcond   <- df_data_filtered_PSB$Cond_CTD_P
 bcond4p <- df_data_filtered_PSB$botcond
