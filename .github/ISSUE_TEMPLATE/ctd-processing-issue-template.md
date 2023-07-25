@@ -27,7 +27,7 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - [ ] Latest versions of MATLAB®, R, RStudio, and Python available on Software Center installed
 
 > **Warning**
-> When processing a Ecosystem Trawl Survey (a.ka.a Groundfish mission); remember that the file name must use set number inplace of event number.
+> When processing a Ecosystem Trawl Survey (a.ka.a Groundfish mission); remember that the file name must use set number in place of event number.
 
 ## Processing Steps
 
