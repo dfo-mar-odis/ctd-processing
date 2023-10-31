@@ -42,7 +42,7 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
   - [ ] Ran the MATLAB® script _output_ctd_header_info_ on calibrated ODF files
   - [ ] Opened header.txt in Microsoft Excel
   - [ ] Inspected metadata for required updates
-  - [ ] Copied and edited MATLAB® template for updating metadata
+  - [ ] Copied, edited, and ran MATLAB® template for updating metadata
   - [ ] Applied pH linear correction (if provided by tracer group)
 - ### Step 4 - **Add Quality Flag Fields and Run Automated Checks**
   - [ ] Executed the MATLAB® script _add_qfs_to_odf_ to add quality flag fields to the ODF files and run automated quality control checks
