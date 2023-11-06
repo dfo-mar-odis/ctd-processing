@@ -43,20 +43,21 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
   - [ ] Opened header.txt in Microsoft Excel
   - [ ] Inspected metadata for required updates
   - [ ] Copied, edited, and ran MATLAB® template for updating metadata
-  - [ ] Applied pH linear correction (if provided by tracer group)
 - ### Step 4 - **Add Quality Flag Fields and Run Automated Checks**
   - [ ] Executed the MATLAB® script _add_qfs_to_odf_ to add quality flag fields to the ODF files and run automated quality control checks
-- ### Step 5 - **Consult with Physical Scientist** 
-  - [ ] Physical scientist given copy of calibrated ODF files
-  - [ ] Physical scientist evaluated data quality (e.g. using Temperature-Salinity plots)
-  - [ ] Physical scientist provided feedback on data quality
-- ### Step 6 - **Visually Inspect Data**
   - [ ] Copied RMarkdown template and updated it for current mission
   - [ ] Knitted RMarkdown file to produce HTML file 
   - [ ] Opened HTML file containing profile plots to do a quick visual inspection
+- ### Step 5 - **Apply pH Calibration**
+  - [ ] (if required) Applied pH linear correction if provided by tracer group
+- ### Step 6 - **Consult with Physical Scientist** 
+  - [ ] Physical scientist given copy of calibrated ODF files
+  - [ ] Physical scientist evaluated data quality (e.g. using Temperature-Salinity plots)
+  - [ ] Physical scientist provided feedback on data quality
+- ### Step 7 - **Visually Inspect Data**
   - [ ] Ran the MATLAB® script _odf_qc_ to visual inspect CTD profiles one at a time and assign flags to suspect data points
   Note: Operator should refer to physical scientist feedback and report produced from automated checking to help make judgements on suspect data points
-- ### Step 7 - **Make Final Metadata Updates**
+- ### Step 8 - **Make Final Metadata Updates**
   - [ ] (if required) Executed a MATLAB® script to do some final updates (e.g. documenting that the secondary sensor data should be used instead of the primary sensor data) to the ODF file metadata
 - ### Step 8 - **Archive Data and Email Notification**
   - [ ] Copied files to SRC
