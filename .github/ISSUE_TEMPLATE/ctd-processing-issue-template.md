@@ -38,6 +38,7 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - ### Step 2 - **Apply Calibrations**
   - [ ] Copied old CTD configuration files (CON or XMLCON) and updated with revised sensor calibrations
   - [ ] Reprocessed CTD data using CTDDAP and new CON files
+  - [ ] Run Calibration scripts again using corrected QAT data to validate calibration(s) worked
 - ### Step 3 - **Update Metadata**
   - [ ] Ran the MATLAB® script _output_ctd_header_info_ on calibrated ODF files
   - [ ] Opened header.txt in Microsoft Excel
@@ -62,4 +63,5 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
 - ### Step 9 - **Archive Data and Email Notification**
   - [ ] Copied files to SRC
   - [ ] Loaded files into ODF_ARCHIVE database
+  - [ ] Notified data archivist and respective data manager
   - [ ] Notified data archivist and respective data manager
