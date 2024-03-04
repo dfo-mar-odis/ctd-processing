@@ -1,0 +1,57 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Introduction",
+    "section": "",
+    "text": "This guide is a detailed walk-through of how CTD data is processed by ODIS (Ocean Data Information Section) at the Bedford Institute of Oceanography (BIO).\n\n\n\n\n\n\nMore Information\n\n\n\nAlthough what a CTD is will be described briefly on the Data Acquisition page; for more in-depth explanations, please check out the information on these pages at the NOAA Ocean Explorer and Wiki websites.\n\n\nThe CTD data processing that has been conducted at BIO by ODIS has evolved over time; but it has been years since there has been a comprehensive source outlining the procedure.\nThe goal of creating this site is to hopefully document CTD data processing with all of the pertinent details; so that new data processors can follow the guide and begin processing CTD data without a lot of oversight.\nAs with the data processing, this guide will continue to evolve as the instruments, sensors, software, and procedures change.",
+    "crumbs": [
+      "Overview",
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "acquisition.html",
+    "href": "acquisition.html",
+    "title": "Data Acquisition",
+    "section": "",
+    "text": "At BIO, we use instruments and various other methods to collect data. These sources of data are used in aiding the Department of Fisheries and Oceans with its mandate of managing Canadian waters and their resources.\nOne of the ways data is collected is via electronic instruments. These instruments generally have sensors that are used to measure parameters like dissolved oxygen, salinity, temperature, pressure, and fluorescence.\nA key oceanographic instrument is called a CTD (Conductivity, Temperature, and Depth instrument; see figure 1). A CTD is used to measure oceanographic parameters vertically through the water column, when it is lowered and raised on a cable; or as a time-series at a fixed depth, when the instrument is moored.\n\n\n\nFigure 1. A CTD package housed within a metal frame used to acquire vertical profiles in the water column.\n\n\nThe main sensors are conductivity, temperature, and depth (where depth is computed from the data obtained by a pressure sensor).\nThere are many other sensors available to measure parameters in marine environments; with more being manufactured every year.\nThe two main companies that design and sell CTD instruments are Sea-Bird Scientific and RBR.\nAlthough the vast majority of the CTD data we have collected has been done with instruments from Sea-Bird Scientific; more and more profiles are being collected using instruments from RBR.\nSo you have successfully collected data - now it’s time to clean it!",
+    "crumbs": [
+      "Overview",
+      "Data Acquisition"
+    ]
+  },
+  {
+    "objectID": "processing.html",
+    "href": "processing.html",
+    "title": "Data Processing",
+    "section": "",
+    "text": "Once data has been acquired, it has to be processed, which involves a variety of quality assurance and quality control steps. The goal of this process is to produce a data set that is in the best shape to be used for analysis and study.\nCurrently, the processing of a CTD data set is divided into four phases, which are:\n\nCalibrations\nMetadata Quality Control\nData Quality Control\nData Set Archival\n\nEach phase will be described in detail on the pages that follow.\nKnown issues that may crop up during each data processing phase will be presented with examples; along with guidance on how these issues have been handled to date.\n\nThe acquired data are stored in raw data files; either output as plain text or in binary format. These raw data files, identified by their file extensions, have different formats depending on the CTD instrument and manufacturer.\nThe raw data files produced by Sea-Bird Scientific instruments are:\n\n.con or .xmlcon - the configuration file (plain text) used to identify the list of sensors and their respective coefficients and settings that was used on the CTD.\n.hdr - a header file (plain text) which contains the metadata associated with the CTD cast.\n.hex or .xml - the raw data file (binary) which contains the sensor voltage readings, etc. before being converted to expected engineering units.\n.bl - the bottle file (plain text) which is created when bottles are fired as part of the CTD deployment.\n\nThe raw data files produced by RBR are:\n\n.rsk - a Ruskin file (binary) which contains all of the information related to the CTD and its deployment.\n\nMost CTD files being processed by ODIS were acquired using Sea-Bird Scientific instruments.\nSea-Bird Scientific software is complicated, so Flo Hum developed the in-house Java wrapper for this software called CTDDAP (see figure 2).\n\n\n\nFigure 2: Screen capture of CTDDAP when it is first opened.\n\n\nCTDDAP is used to process Sea-Bird raw data files to generate files in the BIO in-house formats (.ODF and .QAT).\nODF files are the full profiles of the CTD casts (normally separate files for the down cast and up cast). They are usually binned in 1 dbar bins. They contain far more metadata than normal Sea-Bird output file formats.\nQAT files contain CTD data records when bottles were fired (usually taken from up cast data). These files are integral for CTD data correction and BioChem database loading.\nThe source data and final processed data set are both archived locally. The final data set is also submitted to the national data center. Once it is ingested into the national data center, it is then pushed out to international data centers for wider distribution and access.",
+    "crumbs": [
+      "Overview",
+      "Data Processing"
+    ]
+  },
+  {
+    "objectID": "phase4.html",
+    "href": "phase4.html",
+    "title": "Phase 4: Data Set Archival",
+    "section": "",
+    "text": "Flowchart diagram of phase 4 of CTD processing.",
+    "crumbs": [
+      "Data Processing Phases",
+      "Phase 4: Data Set Archival"
+    ]
+  },
+  {
+    "objectID": "phase1.html",
+    "href": "phase1.html",
+    "title": "Phase 1: Calibrations",
+    "section": "",
+    "text": "Flowchart diagram of phase 1 of CTD processing.\n\n\nFigures ? and ? below display images generated during the CTD oxygen data correction process for mission HUD2021185. The mission’s data set was broken up into two groups because the oxygen sensors were changed part way through the mission.\nThe first image displays the linear correction computed for group A’s primary oxygen sensor.\n\n\n\n\nImage of the before (blue circles) and after (red squares) linear correction applied to oxygen sensor data.\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nIf a secondary dissolved oxygen was used on the CTD then there would be a similar process for the secondary sensor; as was for this data set.\n\n\n\n\n\nPlot of the primary minus secondary group A oxygen differences showing the uncorrected (black dots) and corrected (blue dots).",
+    "crumbs": [
+      "Data Processing Phases",
+      "Phase 1: Calibrations"
+    ]
+  }
+]

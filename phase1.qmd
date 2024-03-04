@@ -1,0 +1,23 @@
+---
+title: "Phase 1: Calibrations"
+---
+
+------------------------------------------------------------------------
+
+![Flowchart diagram of phase 1 of CTD processing.](images/CTD_Data_Processing_Flowchart_Phase1_11AUG2023.png)
+
+Figures ? and ? below display images generated during the CTD oxygen data correction process for mission HUD2021185. The mission’s data set was broken up into two groups because the oxygen sensors were changed part way through the mission.
+
+The first image displays the linear correction computed for group A's primary oxygen sensor.
+
+------------------------------------------------------------------------
+
+![Image of the before (blue circles) and after (red squares) linear correction applied to oxygen sensor data.](images/HUD2021185_Primary_Oxygen_LR_Group_A.png)
+
+------------------------------------------------------------------------
+
+::: callout-note
+If a secondary dissolved oxygen was used on the CTD then there would be a similar process for the secondary sensor; as was for this data set.
+:::
+
+![Plot of the primary minus secondary group A oxygen differences showing the uncorrected (black dots) and corrected (blue dots).](images/HUD2021185_Oxygen_Differences_Group_A.png)

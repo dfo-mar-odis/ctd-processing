@@ -1,0 +1,8 @@
+---
+title: "About"
+author: Jeff Jackson
+---
+
+------------------------------------------------------------------------
+
+This site was created using [Quarto](https://quarto.org/).

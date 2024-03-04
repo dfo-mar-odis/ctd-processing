@@ -1,0 +1,35 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "CTD Processing Guide"
+  navbar:
+    background: primary
+    logo: images/sunset.jpg
+  sidebar:
+    style: "docked"
+    background: secondary
+    contents:
+      - section: "Overview"
+        contents: 
+          - index.qmd
+          - acquisition.qmd
+          - processing.qmd
+      - section: "Data Processing Phases"
+        contents: 
+          - phase1.qmd
+          - phase2.qmd
+          - phase3.qmd
+          - phase4.qmd
+
+format:
+  html:
+    theme: 
+      light: cosmo
+      dark: cyborg
+    css: styles.css
+    toc: true
+
+editor: visual
+

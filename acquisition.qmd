@@ -1,0 +1,23 @@
+---
+title: "Data Acquisition"
+---
+
+------------------------------------------------------------------------
+
+At BIO, we use instruments and various other methods to collect data. These sources of data are used in aiding the [Department of Fisheries and Oceans](https://www.dfo-mpo.gc.ca/) with its mandate of managing Canadian waters and their resources.
+
+One of the ways data is collected is via electronic instruments. These instruments generally have sensors that are used to measure parameters like dissolved oxygen, salinity, temperature, pressure, and fluorescence.
+
+A key oceanographic instrument is called a CTD (Conductivity, Temperature, and Depth instrument; see figure 1). A CTD is used to measure oceanographic parameters vertically through the water column, when it is lowered and raised on a cable; or as a time-series at a fixed depth, when the instrument is moored.
+
+![Figure 1. A CTD package housed within a metal frame used to acquire vertical profiles in the water column.](images/ctd.jpg){fig-alt="An image of A CTD package housed within a metal frame used to acquire vertical profiles in the water column." fig-align="center"}
+
+The main sensors are conductivity, temperature, and depth (where depth is computed from the data obtained by a pressure sensor).
+
+There are many other sensors available to measure parameters in marine environments; with more being manufactured every year.
+
+The two main companies that design and sell CTD instruments are [Sea-Bird Scientific](https://www.seabird.com/) and [RBR](https://rbr-global.com/).
+
+Although the vast majority of the CTD data we have collected has been done with instruments from Sea-Bird Scientific; more and more profiles are being collected using instruments from RBR.
+
+So you have successfully collected data - now it's time to clean it!

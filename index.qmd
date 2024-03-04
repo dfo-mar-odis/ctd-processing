@@ -1,0 +1,19 @@
+---
+title: "Introduction"
+---
+
+------------------------------------------------------------------------
+
+This guide is a detailed walk-through of how CTD data is processed by ODIS (Ocean Data Information Section) at the [Bedford Institute of Oceanography (BIO)](https://www.bio.gc.ca/).
+
+::: {.callout-note appearance="simple"}
+## More Information
+
+Although what a CTD is will be described briefly on the Data Acquisition page; for more in-depth explanations, please check out the information on these pages at the [NOAA Ocean Explorer](https://oceanexplorer.noaa.gov/facts/ctd.html) and [Wiki](https://en.wikipedia.org/wiki/CTD_(instrument)) websites.
+:::
+
+The CTD data processing that has been conducted at BIO by ODIS has evolved over time; but it has been years since there has been a comprehensive source outlining the procedure.
+
+The goal of creating this site is to hopefully document CTD data processing with all of the pertinent details; so that new data processors can follow the guide and begin processing CTD data without a lot of oversight.
+
+As with the data processing, this guide will continue to evolve as the instruments, sensors, software, and procedures change.

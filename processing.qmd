@@ -1,0 +1,52 @@
+---
+title: "Data Processing"
+---
+
+------------------------------------------------------------------------
+
+Once data has been acquired, it has to be processed, which involves a variety of quality assurance and quality control steps. The goal of this process is to produce a data set that is in the best shape to be used for analysis and study.
+
+Currently, the processing of a CTD data set is divided into four phases, which are:
+
+1.  Calibrations
+2.  Metadata Quality Control
+3.  Data Quality Control
+4.  Data Set Archival
+
+Each phase will be described in detail on the pages that follow.
+
+Known issues that may crop up during each data processing phase will be presented with examples; along with guidance on how these issues have been handled to date.
+
+------------------------------------------------------------------------
+
+The acquired data are stored in raw data files; either output as plain text or in binary format. These raw data files, identified by their file extensions, have different formats depending on the CTD instrument and manufacturer.
+
+The raw data files produced by Sea-Bird Scientific instruments are:
+
+-   .con or .xmlcon - the configuration file (plain text) used to identify the list of sensors and their respective coefficients and settings that was used on the CTD.
+
+-   .hdr - a header file (plain text) which contains the metadata associated with the CTD cast.
+
+-   .hex or .xml - the raw data file (binary) which contains the sensor voltage readings, etc. before being converted to expected engineering units.
+
+-   .bl - the bottle file (plain text) which is created when bottles are fired as part of the CTD deployment.
+
+The raw data files produced by RBR are:
+
+-   .rsk - a Ruskin file (binary) which contains all of the information related to the CTD and its deployment.
+
+Most CTD files being processed by ODIS were acquired using Sea-Bird Scientific instruments.
+
+Sea-Bird Scientific software is complicated, so Flo Hum developed the in-house Java wrapper for this software called CTDDAP (see figure 2).
+
+![Figure 2: Screen capture of CTDDAP when it is first opened.](images/CTDDAP.png)
+
+CTDDAP is used to process Sea-Bird raw data files to generate files in the BIO in-house formats (.ODF and .QAT).
+
+ODF files are the full profiles of the CTD casts (normally separate files for the down cast and up cast). They are usually binned in 1 dbar bins. They contain far more metadata than normal Sea-Bird output file formats.
+
+QAT files contain CTD data records when bottles were fired (usually taken from up cast data). These files are integral for CTD data correction and BioChem database loading.
+
+The source data and final processed data set are both archived locally. The final data set is also submitted to the national data center. Once it is ingested into the national data center, it is then pushed out to international data centers for wider distribution and access.
+
+------------------------------------------------------------------------

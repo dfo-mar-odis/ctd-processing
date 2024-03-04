@@ -1,0 +1,7 @@
+---
+title: "Phase 3: Data Quality Control"
+---
+
+------------------------------------------------------------------------
+
+![Flowchart diagram of phase 3 of CTD processing.](images/CTD_Data_Processing_Flowchart_Phase3_11AUG2023.png)
