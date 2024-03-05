@@ -1,0 +1,320 @@
+---
+title: "<MISSION> CTD Quality Check"
+author: Jeff Jackson
+date: 23-FEB-2023
+output:
+  html_document:
+    keep_md: yes
+  df_print: paged
+---
+
+################################### *** IMPORTANT INSTRUCTIONS *** ##############################################
+### Replace all occurrences of the string "<MISSION>" with the Cruise Number for the mission being processed. ###
+### The user must modify the two folder paths and possibly some of the plotting axes limits and range checks  ###
+### for the plots.                                                                                            ###
+#################################################################################################################
+
+# **Load required libraries**
+
+``` {r load-libraries}
+
+library(oce, quietly = TRUE)
+library(printr, quietly = TRUE)
+
+# **Load the <MISSION> CTD data**
+  
+```
+
+``` {r get-data}
+
+# If the data is not loaded into the workspace then load it.
+if (file.exists("<MISSION>_CTD_Down.rds")) {
+  odfCtdDown <- readRDS("<MISSION>_CTD_Down.rds")
+  cat("CTD down profiles are now loaded.\n")
+} else {
+  cat("Reading the CTD files has begun.\n")
+
+  ## Get a list of all CTD down files (including their full pathname).
+  ctdDownFiles <- list.files(path = "C://DEV//Data//2022//<MISSION>//CTD//DATASHOP_PROCESSING//Step_4_Run_Automated_Checks//", pattern = "*_DN.ODF", ignore.case = TRUE, full.names = TRUE)
+  
+  ## Read in all of the down cast CTD files.
+  odfCtdDown <- lapply(ctdDownFiles, read.odf)
+  
+  saveRDS(odfCtdDown, file ="<MISSION>_CTD_Down.rds")
+}
+
+if (file.exists("<MISSION>_CTD_Up.rds")) {
+  odfCtdUp <- readRDS("<MISSION>_CTD_Up.rds")
+  cat("CTD up profiles are now loaded.\n")
+} else {
+  ## Get a list of all CTD up files (including their full pathname).
+  ctdUpFiles <- list.files(path = "C://DEV//Data//2022//<MISSION>//CTD//DATASHOP_PROCESSING//Step_4_Run_Automated_Checks//", pattern = "*_UP.ODF", ignore.case = TRUE, full.names = TRUE)
+  
+  ## Read in all of the up cast CTD files.
+  odfCtdUp <- lapply(ctdUpFiles, read.odf)
+  
+  saveRDS(odfCtdUp, file ="<MISSION>_CTD_Up.rds")
+  
+}
+
+```
+
+**Prepare data for plotting**
+
+``` {r prepare-data-for-plotting}
+
+# Coerce the ODF objects into CTD objects because OCE requires them to be proper
+# CTD objects in order to plot and analyze them.
+oceCtdDown <- lapply(odfCtdDown, function(x) as.ctd(x))
+oceCtdUp <- lapply(odfCtdUp, function(x) as.ctd(x))
+
+cols <- hcl.colors(153)
+cols <- toupper(cols)
+
+cfiles <- (unlist(lapply(oceCtdDown, function(k) basename(k@metadata$filename))))
+
+# Configure the size of the plots to follow
+knitr::opts_chunk$set(fig.width = 20, fig.height = 15, fig.path = 'R_Markdown_Figures/<MISSION>-')
+
+```
+
+``` {r Temperature-Down-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(0,20), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Down Profiles for Temperature", xlab = "Temperature", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+ndown <- length(oceCtdDown)
+
+# plot all of the down profiles for the parameter of interest
+for (i in 1:ndown) {
+  ctdDown <- oceCtdDown[[i]]
+  lines(ctdDown@data$temperature, ctdDown@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomright", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Temperature-Up-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(0,20), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Up Profiles for Temperature", xlab = "Temperature", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+nup <- length(oceCtdUp)
+
+# plot all of the up profiles for the parameter of interest
+for (i in 1:nup) {
+  ctdUp <- oceCtdUp[[i]]
+  lines(ctdUp@data$temperature, ctdUp@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomright", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Conductivity-Down-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(0,5), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Down Profiles for Conductivity", xlab = "Conductivity", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+ndown <- length(oceCtdDown)
+
+# create an empty list of profiles to check later
+profsToCheck <- c()
+
+printDownNote <- TRUE
+
+# plot all of the down profiles for the parameter of interest
+for (i in 1:ndown) {
+  ctdDown <- oceCtdDown[[i]]
+  nx <- length(ctdDown@data$conductivity)
+  cdiffs <- ctdDown@data$conductivity[2:nx] - ctdDown@data$conductivity[1:(nx-1)]
+  if (any(abs(cdiffs) > 0.02, na.rm = TRUE)) {
+    # Remember for Trawl Surveys that the set number is used to identify the filename and not the event number.
+    # bname <- basename(ctdDown@metadata$filename)
+    # split_bname <- unlist(strsplit(bname, "_"))
+    # setNumber <- split_bname[3]
+    if (printDownNote) {
+      # cat(paste0("The Down Conductivity for Set Number ", setNumber, " needs to be visually inspected because it had at least one point that was differed by more than 0.02 than the previous value.\n"))
+      cat(paste0("The Down Conductivity for Event Number ", ctdDown@metadata$eventNumber, " needs to be visually inspected because it had at least one point that was differed by more than 0.02 than the previous value.\n"))
+      printDownNote <- FALSE
+    }
+    
+    # add the current profile to the list of ones to check later
+    profsToCheck <- c(profsToCheck, i)
+  }
+  lines(ctdDown@data$conductivity, ctdDown@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Conductivity-Up-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(0,5), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Up Profiles for Conductivity", xlab = "Conductivity", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+nup <- length(oceCtdUp)
+
+printUpNote <- TRUE
+
+# plot all of the up profiles for the parameter of interest
+for (i in 1:nup) {
+  ctdUp <- oceCtdUp[[i]]
+  ny <- length(ctdUp@data$conductivity)
+  cdiffs <- ctdUp@data$conductivity[2:ny] - ctdUp@data$conductivity[1:(ny-1)]
+  if (any(abs(cdiffs) > 0.02, na.rm = TRUE)) {
+    # Remember for Trawl Surveys that the set number is used to identify the filename and not the event number.
+    # bname <- basename(ctdUp@metadata$filename)
+    # split_bname <- unlist(strsplit(bname, "_"))
+    # setNumber <- split_bname[3]
+    if (printUpNote) {
+      # cat(paste0("The Up Conductivity for Set Number ", setNumber, " needs to be visually inspected because it had at least one point that was differed by more than 0.02 than the previous value.\n"))
+      cat(paste0("The Up Conductivity for Event Number ", ctdDown@metadata$eventNumber, " needs to be visually inspected because it had at least one point that was differed by more than 0.02 than the previous value.\n"))
+      printUpNote <- FALSE
+    }
+    
+    # add the current profile to the list of ones to check later
+    profsToCheck <- c(profsToCheck, i)    
+  }
+  lines(ctdUp@data$conductivity, ctdUp@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r SigmaTheta-Down-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(21,28), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Down Profiles for SigmaTheta", xlab = "SigmaTheta", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+ndown <- length(oceCtdDown)
+
+# plot all of the down profiles for the parameter of interest
+for (i in 1:ndown) {
+  ctdDown <- oceCtdDown[[i]]
+  lines(ctdDown@data$sigmaTheta, ctdDown@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r SigmaTheta-Up-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(21,28), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Up Profiles for SigmaTheta", xlab = "SigmaTheta", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+nup <- length(oceCtdUp)
+
+# plot all of the up profiles for the parameter of interest
+for (i in 1:nup) {
+  ctdUp <- oceCtdUp[[i]]
+  lines(ctdUp@data$sigmaTheta, ctdUp@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Oxygen-Down-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(-1,10), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Down Profiles for Oxygen", xlab = "Oxygen", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+ndown <- length(oceCtdDown)
+
+# plot all of the down profiles for the parameter of interest
+for (i in 1:ndown) {
+  ctdDown <- oceCtdDown[[i]]
+  lines(ctdDown@data$oxygen, ctdDown@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Oxygen-Up-Profiles}
+
+# Set up the plotting window
+par(mar = c(5.1, 5.1, 4.1, 1.1))
+plot(0, 0, xlim = c(-1,10), ylim = rev(c(0,500)), type = "n", main = "Plot of all <MISSION> CTD Up Profiles for Oxygen", xlab = "Oxygen", ylab = "Pressure", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+nup <- length(oceCtdUp)
+
+# plot all of the up profiles for the parameter of interest
+for (i in 1:nup) {
+  ctdUp <- oceCtdUp[[i]]
+  lines(ctdUp@data$oxygen, ctdUp@data$pressure, col = cols[i], lwd = 2.5)
+}
+
+legend("bottomleft", legend = cfiles, col = cols, cex = 1.3, lty = 1, lwd = 2.5, bty = "n")
+
+```
+
+``` {r Scan-Down-Profiles}
+
+ndown <- length(profsToCheck)
+downProfs <- oceCtdDown[profsToCheck]
+
+# plot all of the down profiles for the parameter of interest
+for (i in 1:ndown) {
+  ctdDown <- downProfs[[i]]
+  
+  #' Plot the down Scan profiles
+  par(mar = c(5.5, 4.0, 5.1, 1.0))
+  
+  # output a scan plot with the file name as the title
+  oce::plotScan(ctdDown, main = paste0(basename(ctdDown@metadata$filename)), cex.lab = 1.75, cex.axis = 1.75, cex.main = 2.25)
+}
+
+```
+
+``` {r TS-Plot}
+
+par(mar = c(5.5, 5.1, 4.1, 1.1))
+
+# Function to subset oce CTD object based on temperature range
+subtemp <- function(x) {
+  subset(x, ((temperature > -2) & (temperature < 30)))
+}
+
+# Function to subset oce CTD object based on salinity range
+subsal <- function(x) {
+  subset(x, ((salinity > 0) & (salinity < 36)))
+}
+
+Tlim <- range(unlist(lapply(oceCtdDown, function(k) subtemp(k)[["temperature"]])), na.rm = TRUE)
+Slim <- range(unlist(lapply(oceCtdDown, function(k) subsal(k)[["salinity"]])), na.rm = TRUE)
+Slim <- c(30, Slim[2])
+
+# Set up the plotting window
+plotTS(oceCtdDown[[1]], Tlim = Tlim, Slim = Slim, pch = 21, col = 'black', pt.bg = cols[1], mar = par('mar'), main = "TS Diagrams for all <MISSION> CTD Down Profiles", cex.lab = 2.0, cex.axis = 2.0, cex.main = 2.5)
+
+ndown <- length(oceCtdDown)
+
+# plot TS diagrams for all of the down profiles
+for (i in 2:ndown) {
+  ctdDown <- oceCtdDown[[i]]
+  badSalts <- ctdDown[['salinity']] < 0
+  bx <- which(badSalts == TRUE)
+  if (any(badSalts, na.rm = TRUE)) {
+    cat(paste0("\nEvent ", i, " appears to have suspect salinity values at indices: ", bx, "\n"))
+    ctdDown <- subset(ctdDown, !badSalts)
+  }
+  
+  # Trim the CTD profile so that only data where salinity > 30 is used for plotting.
+  ctdDownTrimmed <- subset(ctdDown, salinity > 30)
+  points(ctdDownTrimmed[['salinity']], ctdDownTrimmed[['temperature']], pch = 21, col = 'black', bg = cols[i])
+}
+
+```

@@ -53,5 +53,16 @@
       "Data Processing Phases",
       "Phase 1: Calibrations"
     ]
+  },
+  {
+    "objectID": "phase2.html",
+    "href": "phase2.html",
+    "title": "Phase 2: Metadata Quality Control",
+    "section": "",
+    "text": "Flowchart diagram of phase 2 of CTD processing.",
+    "crumbs": [
+      "Data Processing Phases",
+      "Phase 2: Metadata Quality Control"
+    ]
   }
 ]
