@@ -64,4 +64,3 @@ Normally the CTD data is acquired using Sea-Bird Scientific instruments but migh
   - [ ] Copied files to SRC
   - [ ] Loaded files into ODF_ARCHIVE database
   - [ ] Notified data archivist and respective data manager
-  - [ ] Notified data archivist and respective data manager
